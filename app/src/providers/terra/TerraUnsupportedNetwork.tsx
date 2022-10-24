@@ -9,7 +9,7 @@ function TerraUnsupportedNetworkBase({ className }: UIElementProps) {
     <Modal open disableBackdropClick disableEnforceFocus>
       <Dialog className={className}>
         <h3>You're connected to an unsupported network.</h3>
-        <p>Please connect to the Terra Classic network and reload.</p>
+        <p>Please connect to the Terra Mainnet network and reload.</p>
       </Dialog>
     </Modal>
   );

@@ -14,18 +14,6 @@ import React, { ReactNode } from 'react';
 const channels = (
   <ul>
     <li>
-      Discord :{' '}
-      <a href="https://discord.gg/3gaVztyuT2" target="_blank" rel="noreferrer">
-        https://discord.gg/3gaVztyuT2
-      </a>
-    </li>
-    <li>
-      Telegram :{' '}
-      <a href="https://t.me/anchor_official" target="_blank" rel="noreferrer">
-        https://t.me/anchor_official
-      </a>
-    </li>
-    <li>
       Github Issues :{' '}
       <a
         href="https://github.com/Anchor-Protocol/anchor-web-app/issues"
@@ -115,57 +103,6 @@ export function renderTxFailedReason({
     return (
       <>
         <h2>Transaction failed</h2>
-        <ErrorMessageView error={null}>
-          <div style={{ lineHeight: '1.8em' }}>
-            <p style={{ opacity: 0.7 }}>
-              The transaction requested has failed due to the following reason:
-            </p>
-            <p>
-              {error.message
-                .replace('execute wasm contract failed:', '')
-                .replace('failed to execute message; message index: 0', '')
-                .replace(': failed to execute message; message index: 0', '')
-                .trim()}
-            </p>
-            <p style={{ opacity: 0.7, marginTop: '1em' }}>
-              For assistance, please report your Tx hash to an admin through the
-              Anchor Discord server under SUPPORT - #🆔│error-support.
-            </p>
-            <p>
-              Anchor Discord Server:{' '}
-              <a
-                href="https://discord.gg/3gaVztyuT2"
-                target="_blank"
-                rel="noreferrer"
-              >
-                https://discord.gg/3gaVztyuT2
-              </a>
-            </p>
-            <p style={{ opacity: 0.7, marginTop: '1em' }}>
-              Alternative lines of communication
-            </p>
-            <p>
-              Telegram Channel:{' '}
-              <a
-                href="https://t.me/anchor_official"
-                target="_blank"
-                rel="noreferrer"
-              >
-                https://t.me/anchor_official
-              </a>
-            </p>
-            <p>
-              Github Issues:{' '}
-              <a
-                href="https://github.com/Anchor-Protocol/anchor-web-app/issues"
-                target="_blank"
-                rel="noreferrer"
-              >
-                https://github.com/Anchor-Protocol/anchor-web-app
-              </a>
-            </p>
-          </div>
-        </ErrorMessageView>
       </>
     );
   } else if (

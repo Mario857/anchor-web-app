@@ -4,7 +4,6 @@ import { useAccount } from 'contexts/account';
 import { useBuyUstDialog } from 'pages/earn/components/useBuyUstDialog';
 import { useSendDialog } from 'pages/send/useSendDialog';
 import { useWalletDialog } from './useWalletDialog';
-import { useAirdropElement } from 'components/Header/airdrop';
 import { useVestingClaimNotification } from 'components/Header/vesting/VestingClaimNotification';
 import { ViewAddressButton } from '../ViewAddressButton';
 import { MobileHeader } from '../MobileHeader';
@@ -39,8 +38,6 @@ export function TerraMobileHeader() {
     status,
   ]);
 
-  const airdropElement = useAirdropElement(open, true);
-
   const [vestingClaimNotificationElement] = useVestingClaimNotification();
 
   const viewAddress = useCallback(() => {
@@ -64,7 +61,6 @@ export function TerraMobileHeader() {
         setOpen={setOpen}
         isActive={!!walletDialogElement}
         toggleWallet={toggleWallet}
-        airdropElement={airdropElement}
         vestingClaimNotificationElement={vestingClaimNotificationElement}
         viewAddressButtonElement={viewAddressButtonElement}
       />

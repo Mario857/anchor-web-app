@@ -70,7 +70,7 @@ export function ANCHOR_CONSTANTS(network: NetworkInfo): AnchorConstants {
   };
 }
 
-const COLUMBUS_CONTRACT_ADDRESS = {
+const PHOENIX_CONTRACT_ADDRESS = {
   bLunaHub: 'terra1mtwph2juhj0rvjz7dy92gvl6xvukaxu8rfv8ts',
   bLunaToken: 'terra1kc87mu460fwkqte29rquh4hc20m54fxwtsx7gp',
   bLunaReward: 'terra17yap3mhph35pcwvhza38c2lkj7gzywzy05h7l0',
@@ -105,7 +105,7 @@ const COLUMBUS_CONTRACT_ADDRESS = {
   astroUstPair: 'terra1l7xu2rl3c7qmtx3r5sd2tz25glf6jh8ul7aag7',
 };
 
-const BOMBAY_CONTRACT_ADDRESS = {
+const PISCO_CONTRACT_ADDRESS = {
   bLunaHub: 'terra1fflas6wv4snv8lsda9knvq2w0cyt493r8puh2e',
   bLunaToken: 'terra1u0t35drzyy0mujj8rkdyzhe264uls4ug3wdp3x',
   bLunaReward: 'terra1ac24j6pdxh53czqyrkr6ygphdeftg7u3958tl2',
@@ -145,9 +145,9 @@ const BOMBAY_CONTRACT_ADDRESS = {
 export const ANCHOR_CONTRACT_ADDRESS = (
   network: NetworkInfo,
 ): AnchorContractAddress => {
-  const addressMap = network.chainID.startsWith('bombay')
-    ? BOMBAY_CONTRACT_ADDRESS
-    : COLUMBUS_CONTRACT_ADDRESS;
+  const addressMap = network.chainID.startsWith('pisco')
+    ? PISCO_CONTRACT_ADDRESS
+    : PHOENIX_CONTRACT_ADDRESS;
 
   return {
     bluna: {
@@ -159,11 +159,6 @@ export const ANCHOR_CONTRACT_ADDRESS = (
     },
     moneyMarket: {
       market: addressMap.mmMarket as HumanAddr,
-      //collaterals: {
-      //  [CollateralType.bLuna]: bLunaCollateral,
-      //  [CollateralType.bEth]: bEthCollateral,
-      //},
-      //collateralsArray: [bLunaCollateral, bEthCollateral],
       overseer: addressMap.mmOverseer as HumanAddr,
       oracle: addressMap.mmOracle as HumanAddr,
       interestModel: addressMap.mmInterestModel as HumanAddr,

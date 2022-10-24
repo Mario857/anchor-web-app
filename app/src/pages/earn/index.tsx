@@ -4,9 +4,7 @@ import { links, screen } from 'env';
 import { fixHMR } from 'fix-hmr';
 import React from 'react';
 import styled from 'styled-components';
-import { BuyUstButton } from './components/BuyUstButton';
 import { ExpectedInterestSection } from './components/ExpectedInterestSection';
-import { InsuranceCoverageButton } from './components/InsuranceCoverageButton';
 import { InterestSection } from './components/InterestSection';
 import { TotalDepositSection } from './components/TotalDepositSection';
 
@@ -19,10 +17,9 @@ function Component({ className }: EarnProps) {
     <PaddedLayout className={className}>
       <FlexTitleContainer>
         <PageTitle title="EARN" docs={links.docs.earn} />
-        <Buttons>
-          <InsuranceCoverageButton />
+        {/* <Buttons>
           <BuyUstButton />
-        </Buttons>
+        </Buttons> */}
       </FlexTitleContainer>
       <section className="grid">
         <TotalDepositSection className="total-deposit" />
@@ -33,17 +30,17 @@ function Component({ className }: EarnProps) {
   );
 }
 
-const Buttons = styled.div`
-  display: flex;
-  gap: 10px;
+// const Buttons = styled.div`
+//   display: flex;
+//   gap: 10px;
 
-  @media (max-width: 700px) {
-    width: 100%;
-    gap: 0;
-    justify-content: stretch;
-    flex-direction: column;
-  }
-`;
+//   @media (max-width: 700px) {
+//     width: 100%;
+//     gap: 0;
+//     justify-content: stretch;
+//     flex-direction: column;
+//   }
+// `;
 
 const StyledComponent = styled(Component)`
   // ---------------------------------------------

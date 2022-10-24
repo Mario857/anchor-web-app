@@ -1,7 +1,6 @@
 //import { useEmailInput, useSendinblueSubscription } from '@libs/sendinblue';
 //import { InputBase } from '@material-ui/core';
 //import { MailOutline } from '@material-ui/icons';
-import { links } from 'env';
 import styled from 'styled-components';
 
 export interface SubscribeProps {
@@ -44,23 +43,6 @@ function SubscribeBase({ className }: SubscribeProps) {
       {/*    </button>*/}
       {/*  </div>*/}
       {/*)}*/}
-      <div className="links">
-        <a href={links.contact} target="_blank" rel="noreferrer">
-          CONTACT
-        </a>
-        <a href={links.whitepaper} target="_blank" rel="noreferrer">
-          WHITE PAPER
-        </a>
-        <a href={links.discord} target="_blank" rel="noreferrer">
-          DISCORD
-        </a>
-        <a href={links.forum} target="_blank" rel="noreferrer">
-          FORUM
-        </a>
-        <a href={links.terra} target="_blank" rel="noreferrer">
-          Terra WEBSITE
-        </a>
-      </div>
     </section>
   );
 }

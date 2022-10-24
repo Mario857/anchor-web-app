@@ -8,8 +8,6 @@ import { Rate, u, UST } from '@anchor-protocol/types';
 import {
   useAnchorWebapp,
   useEarnEpochStatesQuery,
-  useMarketAncQuery,
-  useMarketBuybackQuery,
   useMarketCollateralsQuery,
   useMarketDepositAndBorrowQuery,
   useMarketStableCoinQuery,
@@ -33,12 +31,10 @@ import { screen } from 'env';
 import { fixHMR } from 'fix-hmr';
 import React, { useEffect, useMemo, useState } from 'react';
 import styled, { css, useTheme } from 'styled-components';
-import { ANCPriceChart } from './components/ANCPriceChart';
 import { findPrevDay } from './components/internal/axisUtils';
 import { StablecoinChart } from './components/StablecoinChart';
 import { TotalValueLockedDoughnutChart } from './components/TotalValueLockedDoughnutChart';
 import { CollateralMarket } from './components/CollateralMarket';
-import { useAssetPriceInUstQuery } from 'queries';
 import { useDepositApy } from 'hooks/useDepositApy';
 
 export interface DashboardProps {
@@ -86,24 +82,9 @@ function DashboardBase({ className }: DashboardProps) {
 
   const { data: { moneyMarketEpochState } = {} } = useEarnEpochStatesQuery();
   const { data: marketUST } = useMarketUstQuery();
-  const { data: marketANC } = useMarketAncQuery();
-  const ancPriceRelevantHistory = useMemo(() => {
-    const history = marketANC?.history;
-    if (!history) return;
-
-    const currentDate = new Date();
-    const yearAgoDate = currentDate.setFullYear(currentDate.getFullYear() - 1);
-    const yearAgoTimestamp = yearAgoDate.valueOf();
-
-    return history
-      .filter(({ timestamp }) => timestamp >= yearAgoTimestamp)
-      .sort((a, b) => a.timestamp - b.timestamp);
-  }, [marketANC?.history]);
 
   const { data: marketDepositAndBorrow } = useMarketDepositAndBorrowQuery();
   const { data: marketCollaterals } = useMarketCollateralsQuery();
-  const { data: marketBuybackTotal } = useMarketBuybackQuery('total');
-  const { data: marketBuyback72hrs } = useMarketBuybackQuery('72hrs');
 
   const totalValueLocked = useMemo(() => {
     if (!marketDepositAndBorrow?.now || !marketCollaterals?.now || !marketUST) {
@@ -119,32 +100,6 @@ function DashboardBase({ className }: DashboardProps) {
       yieldReserve: marketUST.overseer_ust_balance,
     };
   }, [marketCollaterals?.now, marketDepositAndBorrow?.now, marketUST]);
-
-  const { data: ancPriceUST } = useAssetPriceInUstQuery('anc');
-
-  const ancPrice = useMemo(() => {
-    if (!marketANC || marketANC.history.length === 0) {
-      return undefined;
-    }
-
-    const last = marketANC.now;
-    const lastPrice = ancPriceUST ?? last.anc_price;
-    const last1DayBefore =
-      marketANC.history.find(findPrevDay(last.timestamp)) ??
-      marketANC.history[marketANC.history.length - 2] ??
-      marketANC.history[marketANC.history.length - 1];
-
-    return {
-      ancPriceDiff: big(big(lastPrice).minus(last1DayBefore.anc_price)).div(
-        last1DayBefore.anc_price,
-      ) as Rate<Big>,
-      ancPrice: lastPrice,
-      circulatingSupply: last.anc_circulating_supply,
-      ancMarketCap: big(lastPrice).mul(last.anc_circulating_supply) as u<
-        UST<Big>
-      >,
-    };
-  }, [marketANC, ancPriceUST]);
 
   const stableCoin = useMemo(() => {
     if (
@@ -264,105 +219,6 @@ function DashboardBase({ className }: DashboardProps) {
                   </AnimateNumber>
                   <span>UST</span>
                 </p>
-              </section>
-            </Section>
-
-            <Section className="anc-price">
-              <header>
-                <div>
-                  <h2>
-                    ANC PRICE
-                    {ancPrice && (
-                      <span data-negative={big(ancPrice.ancPriceDiff).lt(0)}>
-                        {big(ancPrice.ancPriceDiff).gte(0) ? '+' : ''}
-                        {formatRate(ancPrice.ancPriceDiff)}%
-                      </span>
-                    )}
-                  </h2>
-                  <p className="amount">
-                    <AnimateNumber format={formatUST}>
-                      {ancPrice ? ancPrice.ancPrice : (0 as u<UST<number>>)}
-                    </AnimateNumber>
-                    <span>UST</span>
-                  </p>
-                </div>
-                <div>
-                  <h3>Circulating Supply</h3>
-                  <p>
-                    {ancPrice
-                      ? formatUTokenIntegerWithoutPostfixUnits(
-                          ancPrice.circulatingSupply,
-                        )
-                      : 0}
-                    <span>ANC</span>
-                  </p>
-                </div>
-                <div>
-                  <h3>ANC Market Cap</h3>
-                  <p>
-                    {ancPrice
-                      ? formatUTokenIntegerWithoutPostfixUnits(
-                          ancPrice.ancMarketCap,
-                        )
-                      : 0}
-                    <span>UST</span>
-                  </p>
-                </div>
-              </header>
-              <figure>
-                <div>
-                  <ANCPriceChart
-                    data={ancPriceRelevantHistory ?? EMPTY_ARRAY}
-                    theme={theme}
-                    isMobile={isMobile}
-                  />
-                </div>
-              </figure>
-            </Section>
-
-            <Section className="anc-buyback">
-              <section>
-                <h2>ANC BUYBACK (72HR)</h2>
-                <div>
-                  <p>
-                    {marketBuyback72hrs
-                      ? formatUTokenIntegerWithoutPostfixUnits(
-                          marketBuyback72hrs.buyback_amount,
-                        )
-                      : 0}
-                    <span>ANC</span>
-                  </p>
-                  <p>
-                    {marketBuyback72hrs
-                      ? formatUTokenIntegerWithoutPostfixUnits(
-                          marketBuyback72hrs.offer_amount,
-                        )
-                      : 0}
-                    <span>UST</span>
-                  </p>
-                </div>
-              </section>
-              <hr />
-              <section>
-                <h2>ANC BUYBACK (TOTAL)</h2>
-                <div>
-                  <p>
-                    {marketBuybackTotal
-                      ? formatUTokenIntegerWithoutPostfixUnits(
-                          marketBuybackTotal.buyback_amount,
-                        )
-                      : 0}
-                    <span>ANC</span>
-                  </p>
-                  <p>
-                    {marketBuybackTotal
-                      ? formatUTokenIntegerWithoutPostfixUnits(
-                          marketBuybackTotal.offer_amount,
-                        )
-                      : 0}
-                    <span>UST</span>
-                  </p>
-                </div>
               </section>
             </Section>
           </div>

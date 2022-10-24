@@ -7,9 +7,6 @@ import React, { useMemo, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import { Earn } from './components/Earn';
-import { Govern } from './components/Govern';
-import { Rewards } from './components/Rewards';
-import { TotalClaimableRewards } from './components/TotalClaimableRewards';
 import { TotalValue } from './components/TotalValue';
 import { TransactionHistory } from './components/TransactionHistory';
 
@@ -27,7 +24,6 @@ const TAB_ITEMS: Item[] = [
   { label: 'Rewards', value: 'rewards' },
   { label: 'Earn', value: 'earn' },
   { label: 'Borrow', value: 'borrow' },
-  { label: 'Govern', value: 'govern' },
   { label: 'History', value: 'history' },
 ];
 
@@ -55,7 +51,6 @@ function MypageBase({ className }: MypageProps) {
 
       <OverviewRow>
         <TotalValue />
-        <TotalClaimableRewards />
       </OverviewRow>
 
       {!isSmallLayout && (
@@ -69,14 +64,6 @@ function MypageBase({ className }: MypageProps) {
         />
       )}
 
-      {isNative &&
-        (isSmallLayout || tab.value === 'all' || tab.value === 'rewards') && (
-          <>
-            <h2>REWARDS</h2>
-            <Rewards />
-          </>
-        )}
-
       {(isSmallLayout || tab.value === 'all' || tab.value === 'earn') && (
         <>
           <h2>EARN</h2>
@@ -88,13 +75,6 @@ function MypageBase({ className }: MypageProps) {
         <>
           <h2>BORROW</h2>
           <Borrow />
-        </>
-      )}
-
-      {(isSmallLayout || tab.value === 'all' || tab.value === 'govern') && (
-        <>
-          <h2>GOVERN</h2>
-          <Govern />
         </>
       )}
 

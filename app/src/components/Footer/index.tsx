@@ -1,22 +1,14 @@
-import { Discord } from '@anchor-protocol/icons';
 import {
   useLastSyncedHeightQuery,
   useNetwork,
 } from '@anchor-protocol/app-provider';
 import { IconButton } from '@material-ui/core';
-import {
-  Brightness3,
-  Brightness5,
-  GitHub,
-  Telegram,
-  Twitter,
-} from '@material-ui/icons';
+import { Brightness3, Brightness5 } from '@material-ui/icons';
 import { useTheme } from 'contexts/theme';
 import { screen } from 'env';
 import c from 'color';
 import React, { CSSProperties } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { useDeploymentTarget } from '@anchor-protocol/app-provider';
 import { BlockInfo } from './BlockInfo';
 import { Chain } from '@anchor-protocol/app-provider';
@@ -61,10 +53,10 @@ function FooterBase({ className, style }: FooterProps) {
 
         {appVersion && <p>{appVersion}</p>}
 
-        <Link to="/terms">Terms</Link>
+        {/* <Link to="/terms">Terms</Link> */}
       </Info>
       <div>
-        <IconButton
+        {/* <IconButton
           component="a"
           href="https://discord.gg/9aUYgpKZ9c"
           target="_blank"
@@ -95,7 +87,7 @@ function FooterBase({ className, style }: FooterProps) {
           rel="noreferrer"
         >
           <GitHub />
-        </IconButton>
+        </IconButton> */}
         {switchable && (
           <IconButton
             onClick={() =>
